@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Appointment System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-stethoscope"></i> Doctor Appointment System</h1>
+            <p>Book appointments with specialists - Built for Modex Assessment</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('view')">
+                <i class="fas fa-calendar-alt"></i> View Appointments
+            </button>
+            <button class="tab-btn" onclick="showTab('book')">
+                <i class="fas fa-book-medical"></i> Book Appointment
+            </button>
+            <button class="tab-btn" onclick="showTab('admin')">
+                <i class="fas fa-user-md"></i> Admin Panel
+            </button>
+        </div>
+
+        <div class="content">
+            <!-- View Tab -->
+            <div id="view-tab" class="tab-content">
+                <h2><i class="fas fa-user-md"></i> Available Doctors</h2>
+                <div id="doctors-list" class="cards-container">
+                    Loading doctors...
+                </div>
+
+                <h2><i class="fas fa-clock"></i> Available Time Slots</h2>
+                <div id="slots-list" class="cards-container">
+                    Loading slots...
+                </div>
+            </div>
+
+            <!-- Book Tab -->
+            <div id="book-tab" class="tab-content hidden">
+                <h2><i class="fas fa-calendar-plus"></i> Book New Appointment</h2>
+                <div class="card">
+                    <p>Select an available slot from the "View Appointments" tab and click "Book Appointment".</p>
+                    <p>For concurrency demonstration, try booking the same slot from multiple browser tabs simultaneously.</p>
+                </div>
+                <div id="booking-result"></div>
+            </div>
+
+            <!-- Admin Tab -->
+            <div id="admin-tab" class="tab-content hidden">
+                <h2><i class="fas fa-cogs"></i> Admin Panel</h2>
+                <div class="card">
+                    <h3>System Information</h3>
+                    <p><strong>Backend:</strong> Node.js + Express on Railway</p>
+                    <p><strong>Database:</strong> MySQL on Railway</p>
+                    <p><strong>Concurrency Control:</strong> MySQL FOR UPDATE locking + Transactions</p>
+                    <p><strong>Frontend:</strong> HTML/CSS/JS on Netlify</p>
+                    
+                    <h3>Test Endpoints</h3>
+                    <div style="margin: 20px 0;">
+                        <button class="btn" onclick="testHealth()">
+                            <i class="fas fa-heartbeat"></i> Test Health Endpoint
+                        </button>
+                        <button class="btn" onclick="testDB()">
+                            <i class="fas fa-database"></i> Test Database Connection
+                        </button>
+                    </div>
+                    
+                    <div id="test-results"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Doctor Appointment System &copy; 2024 | Modex Assessment Submission</p>
+            <p>Backend: Railway | Database: MySQL | Frontend: Netlify</p>
+            <p>Concurrency: Prevented overbooking with MySQL transactions</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // Admin test functions
+        async function testHealth() {
+            try {
+                const res = await fetch(`${BACKEND_URL}/health`);
+                const data = await res.json();
+                document.getElementById('test-results').innerHTML = `
+                    <div class="success">
+                        <h4>✅ Health Check Passed</h4>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('test-results').innerHTML = `
+                    <div class="error">
+                        <h4>❌ Health Check Failed</h4>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function testDB() {
+            try {
+                const res = await fetch(`${BACKEND_URL}/test-db`);
+                const data = await res.json();
+                document.getElementById('test-results').innerHTML = `
+                    <div class="success">
+                        <h4>✅ Database Connection Successful</h4>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('test-results').innerHTML = `
+                    <div class="error">
+                        <h4>❌ Database Connection Failed</h4>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
