@@ -1,5 +1,5 @@
 // Configuration - UPDATE THIS WITH YOUR RAILWAY URL
-const BACKEND_URL = 'https://doctor-appointment-system-production.up.railway.app/'; // ← CHANGE THIS
+const BACKEND_URL = 'https://doctor-appointment-system-production.up.railway.app'; // ← CHANGE THIS
 
 // Tab switching
 function showTab(tabName) {
@@ -127,4 +127,5 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Backend connection failed:', err);
         });
 });
+
 
